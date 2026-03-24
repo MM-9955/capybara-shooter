@@ -398,11 +398,15 @@ function update() {
   if (!gameRunning) return;
   frameCount++;
 
-  // Player movement
-  if (keys['ArrowLeft'] || keys['a']) player.x -= player.speed;
-  if (keys['ArrowRight'] || keys['d']) player.x += player.speed;
+  // Player movement: mouse follows smoothly, keyboard also works
+  let targetX = player.x;
+  if (keys['ArrowLeft'] || keys['a']) targetX = player.x - player.speed;
+  if (keys['ArrowRight'] || keys['d']) targetX = player.x + player.speed;
   if (keys['ArrowUp'] || keys['w']) player.y -= player.speed;
   if (keys['ArrowDown'] || keys['s']) player.y += player.speed;
+  // Mouse X tracking (smooth lerp)
+  let dx = mouseX - player.x;
+  player.x += dx * 0.18;
   player.x = Math.max(player.w/2, Math.min(W-player.w/2, player.x));
   player.y = Math.max(player.h/2, Math.min(H-player.h/2, player.y));
   if (player.shootCooldown > 0) player.shootCooldown--;
@@ -603,8 +607,21 @@ canvas.addEventListener('mouseup', () => keys[' '] = false);
 canvas.addEventListener('touchstart', e => { e.preventDefault(); keys[' '] = true; shoot(); });
 canvas.addEventListener('touchend', e => { e.preventDefault(); keys[' '] = false; });
 
-// Move by touch/drag
+// Mouse control: player follows mouse X
+let mouseX = W / 2;
+canvas.addEventListener('mousemove', e => {
+  let rect = canvas.getBoundingClientRect();
+  mouseX = e.clientX - rect.left;
+});
+canvas.addEventListener('click', e => {
+  let rect = canvas.getBoundingClientRect();
+  let cx = e.clientX - rect.left;
+  player.x = Math.max(player.w/2, Math.min(W-player.w/2, cx));
+});
+
+// Touch / drag
 let touching = false;
+let touchingX = W/2;
 canvas.addEventListener('touchmove', e => {
   e.preventDefault();
   if (touching) {
@@ -612,8 +629,13 @@ canvas.addEventListener('touchmove', e => {
     player.x = Math.max(player.w/2, Math.min(W-player.w/2, tx));
   }
 });
-canvas.addEventListener('touchstart', e => { touching = true; });
-canvas.addEventListener('touchend', () => { touching = false; });
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  touching = true;
+  let tx = e.touches[0].clientX - canvas.getBoundingClientRect().left;
+  player.x = Math.max(player.w/2, Math.min(W-player.w/2, tx));
+});
+canvas.addEventListener('touchend', e => { e.preventDefault(); touching = false; });
 
 // Initial draw
 draw();
