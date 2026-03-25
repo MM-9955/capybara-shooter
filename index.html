@@ -119,65 +119,125 @@ let player = {
   pwrupTimer: 0
 };
 
-// Capybara face drawn with canvas
+// Capybara - 超萌版 🦫
 function drawCapybara(x, y, w, h, flipped) {
   ctx.save();
   ctx.translate(x, y);
   if (flipped) ctx.scale(-1, 1);
   ctx.translate(-w/2, -h/2);
 
-  // Body (oval)
+  // 身体阴影
+  ctx.fillStyle = '#6B4910';
+  ctx.beginPath();
+  ctx.ellipse(w/2, h*0.65, w*0.4, h*0.35, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // 身体（更圆润）
+  ctx.fillStyle = '#C4962A';
+  ctx.beginPath();
+  ctx.ellipse(w/2, h*0.62, w*0.38, h*0.33, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // 小手（萌萌的）
+  ctx.fillStyle = '#B8862B';
+  ctx.beginPath();
+  ctx.ellipse(w*0.25, h*0.72, w*0.12, h*0.08, -0.3, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(w*0.75, h*0.72, w*0.12, h*0.08, 0.3, 0, Math.PI*2);
+  ctx.fill();
+
+  // 头部阴影
   ctx.fillStyle = '#8B6914';
   ctx.beginPath();
-  ctx.ellipse(w/2, h*0.62, w*0.42, h*0.38, 0, 0, Math.PI*2);
+  ctx.ellipse(w/2, h*0.35, w*0.34, h*0.30, 0, 0, Math.PI*2);
   ctx.fill();
 
-  // Head
-  ctx.fillStyle = '#A0781A';
+  // 头部（更圆更萌）
+  ctx.fillStyle = '#D4A635';
   ctx.beginPath();
-  ctx.ellipse(w/2, h*0.32, w*0.36, h*0.32, 0, 0, Math.PI*2);
+  ctx.ellipse(w/2, h*0.32, w*0.32, h*0.28, 0, 0, Math.PI*2);
   ctx.fill();
 
-  // Snout
-  ctx.fillStyle = '#C09030';
+  // 耳朵（圆圆的）
+  ctx.fillStyle = '#C4962A';
   ctx.beginPath();
-  ctx.ellipse(w*0.62, h*0.4, w*0.18, h*0.14, 0, 0, Math.PI*2);
+  ctx.ellipse(w*0.28, h*0.08, 7, 6, -0.2, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(w*0.72, h*0.08, 7, 6, 0.2, 0, Math.PI*2);
+  ctx.fill();
+  // 耳朵内部（粉色）
+  ctx.fillStyle = '#E8B4B4';
+  ctx.beginPath();
+  ctx.ellipse(w*0.28, h*0.08, 4, 3, -0.2, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(w*0.72, h*0.08, 4, 3, 0.2, 0, Math.PI*2);
   ctx.fill();
 
-  // Nostrils
+  // 脸颊腮红（超萌！）
+  ctx.fillStyle = 'rgba(255, 150, 150, 0.5)';
+  ctx.beginPath();
+  ctx.ellipse(w*0.28, h*0.38, 8, 5, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(w*0.72, h*0.38, 8, 5, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // 鼻子区域
+  ctx.fillStyle = '#E5C060';
+  ctx.beginPath();
+  ctx.ellipse(w*0.58, h*0.42, w*0.16, h*0.12, 0, 0, Math.PI*2);
+  ctx.fill();
+
+  // 鼻孔（小小的）
   ctx.fillStyle = '#5a3a08';
   ctx.beginPath();
-  ctx.ellipse(w*0.65, h*0.38, 2, 1.5, 0, 0, Math.PI*2);
+  ctx.ellipse(w*0.52, h*0.40, 2.5, 2, 0, 0, Math.PI*2);
   ctx.fill();
   ctx.beginPath();
-  ctx.ellipse(w*0.72, h*0.38, 2, 1.5, 0, 0, Math.PI*2);
+  ctx.ellipse(w*0.64, h*0.40, 2.5, 2, 0, 0, Math.PI*2);
   ctx.fill();
 
-  // Eyes (chill vibe)
-  ctx.fillStyle = '#1a0a00';
-  ctx.beginPath();
-  ctx.ellipse(w*0.4, h*0.27, 4, 4, 0, 0, Math.PI*2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.ellipse(w*0.58, h*0.27, 4, 4, 0, 0, Math.PI*2);
-  ctx.fill();
-  // Eye shine
+  // 眼睛（大大的，超萌！）
+  // 眼白
   ctx.fillStyle = 'white';
   ctx.beginPath();
-  ctx.arc(w*0.38, h*0.25, 1.5, 0, Math.PI*2);
+  ctx.ellipse(w*0.38, h*0.26, 7, 8, 0, 0, Math.PI*2);
   ctx.fill();
   ctx.beginPath();
-  ctx.arc(w*0.56, h*0.25, 1.5, 0, Math.PI*2);
+  ctx.ellipse(w*0.62, h*0.26, 7, 8, 0, 0, Math.PI*2);
+  ctx.fill();
+  // 眼珠（黑黑的）
+  ctx.fillStyle = '#1a0a00';
+  ctx.beginPath();
+  ctx.ellipse(w*0.38, h*0.27, 4, 5, 0, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.ellipse(w*0.62, h*0.27, 4, 5, 0, 0, Math.PI*2);
+  ctx.fill();
+  // 眼睛高光（亮晶晶）
+  ctx.fillStyle = 'white';
+  ctx.beginPath();
+  ctx.arc(w*0.36, h*0.24, 2, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(w*0.60, h*0.24, 2, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(w*0.40, h*0.29, 1, 0, Math.PI*2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(w*0.64, h*0.29, 1, 0, Math.PI*2);
   ctx.fill();
 
-  // Ears (small round)
-  ctx.fillStyle = '#7a5510';
+  // 嘴巴（微笑曲线）
+  ctx.strokeStyle = '#5a3a08';
+  ctx.lineWidth = 1.5;
   ctx.beginPath();
-  ctx.ellipse(w*0.3, h*0.08, 6, 5, -0.3, 0, Math.PI*2);
-  ctx.fill();
-  ctx.beginPath();
-  ctx.ellipse(w*0.7, h*0.08, 6, 5, 0.3, 0, Math.PI*2);
-  ctx.fill();
+  ctx.arc(w*0.58, h*0.48, 5, 0.2, Math.PI - 0.2);
+  ctx.stroke();
 
   ctx.restore();
 }
@@ -190,14 +250,27 @@ function drawPlayer(p) {
   // Glow
   if (p.pwrupTimer > 0) {
     ctx.shadowColor = '#ffcc44';
-    ctx.shadowBlur = 20;
+    ctx.shadowBlur = 25;
   }
-  drawCapybara(p.x, p.y, p.w, p.h, false);
+  drawCapybara(p.x, p.y, p.w * 1.1, p.h * 1.1, false);
 
-  // Gun ears
-  ctx.fillStyle = '#ffd700';
-  ctx.fillRect(p.x - 3, p.y - 6, 6, 10);
-  ctx.fillRect(p.x + 2, p.y - 6, 6, 10);
+  // 可爱的小耳机（发射器）
+  ctx.fillStyle = '#FF69B4';
+  ctx.beginPath();
+  ctx.arc(p.x - 8, p.y - 12, 5, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.beginPath();
+  ctx.arc(p.x + 8, p.y - 12, 5, 0, Math.PI * 2);
+  ctx.fill();
+  // 耳机连接线
+  ctx.strokeStyle = '#FF69B4';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(p.x - 8, p.y - 7);
+  ctx.lineTo(p.x - 8, p.y - 12);
+  ctx.moveTo(p.x + 8, p.y - 7);
+  ctx.lineTo(p.x + 8, p.y - 12);
+  ctx.stroke();
 
   ctx.restore();
 }
